@@ -5,33 +5,34 @@ const regd_users = express.Router();
 
 let users = [];
 
-const authenticatedUser = (username,password)=>{
-  let validusers = users.filter((user)=>{
-    return (user.username === username && user.password === password)
-  });
-  if(validusers.length > 0){
-    return true;
-  } else {
-    return false;
-  }
-}
+
 
 const isValid = (username)=>{ //returns boolean
 //write code to check is the username is valid
 }
 
-regd_users.post("/login", (req,res) => {
-  console.log("lıogin",req.user)
-  //Write your code here
-  return res.status(300).json({message: "LOGIN Yet to be implemented"});
+regd_users.post("/login", (req, res) => {
+
+  console.log("users",users)
+  let validusers = users.filter((user) => {
+    return (user.username === req.body.username)
+  });
+  if (validusers.length > 0) {
+    console.log("validusers",validusers)
+    console.log("validusersToken",validusers[0].token)
+    const decoded = jwt.verify(validusers[0].token,"fingerprint_customer")
+    console.log("data",decoded)
+
+    if(decoded.password_token===req.body.password){
+      return res.send("Logged in successfully")
+    }
+    return res.status(500).json({ message: "hatalı giriş" });
+  } else {
+    return res.status(500).json({ message: "yok karşim" });
+
+  }
 });
 
-
-//only registered users can login
-// regd_users.post("/login", (req,res) => {
-//   //Write your code here
-//   return res.status(300).json({message: "LOGIN Yet to be implemented"});
-// });
 
 // Add a book review
 regd_users.put("/review/:isbn", (req, res) => {
@@ -41,4 +42,5 @@ regd_users.put("/review/:isbn", (req, res) => {
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
-//module.exports.users = users;
+module.exports.users = users;
+
