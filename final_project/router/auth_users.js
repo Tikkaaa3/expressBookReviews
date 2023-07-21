@@ -64,9 +64,6 @@ regd_users.put("/review/:isbn", authenticateToken, (req, res) => {
   // Add or update the review for the given ISBN and username
   books[isbn]['reviews'][username] = review;
   console.log("review", review)
-  // Optional: If you want to update your booksdb.js file, you'll need to write the changes back to the file.
-  // Since this is an in-memory implementation, changes will not persist after the server restarts.
-  // You'll need to use a database to store and retrieve data permanently.
 
   return res.status(201).json({ message: 'Review added/updated successfully.', review: review , username});
 });
@@ -85,10 +82,6 @@ regd_users.delete("/review/:isbn",authenticateToken, (req, res) => {
 
   // Delete the review for the given ISBN and username
   delete books[isbn]['reviews'][username];
-
-  // Optional: If you want to update your booksdb.js file, you'll need to write the changes back to the file.
-  // Since this is an in-memory implementation, changes will not persist after the server restarts.
-  // You'll need to use a database to store and retrieve data permanently.
 
   return res.status(200).json({ message: 'Review deleted successfully.' });
 });
