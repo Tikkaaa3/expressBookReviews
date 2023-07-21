@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 
 
 
+
 public_users.post("/register", (req, res) => {
   try {
     
@@ -28,6 +29,7 @@ public_users.post("/register", (req, res) => {
 
     const newUser = {
       username: username,
+      password: password,
       token: token
     };
 
